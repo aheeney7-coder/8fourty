@@ -41,7 +41,12 @@
   <!-- ================= HERO ================= -->
   <section class="hero" id="hero">
     <div class="hero__bg">
-      <img src="assets/hero-bottle.jpg" alt="EIGHT40 Premium Rum Original bottle, frosted glass with a champagne gold spine and 8·40 emblem, lit against darkness." loading="eager">
+      <!-- Cinematic loop generated from the real bottle photo (Seedance 2.5, image-to-video).
+           Hosted on Higgsfield's CDN — download and self-host under assets/ if you want
+           the site fully independent of that URL. -->
+      <video class="bg-video" muted loop playsinline preload="auto" poster="assets/hero-bottle.jpg" aria-hidden="true">
+        <source src="https://d8j0ntlcm91z4.cloudfront.net/user_2xxUgNUgwdtxZYtJq83FQ2JpAUE/hf_20260815_212727_43ceffb0-4acc-41a9-871c-bbdbdec13550.mp4" type="video/mp4">
+      </video>
     </div>
     <div class="hero__content">
       <p class="eyebrow">EIGHT40 — PREMIUM RUM</p>
@@ -90,8 +95,12 @@
   <!-- ================= CHAPTER 3: SIGNATURE BASE (DAY -> NIGHT) ================= -->
   <section class="chapter chapter--base" id="base">
     <div class="base-visual">
-      <img src="assets/detail-base.jpg" alt="The EIGHT40 sculptural glass base with gold emblem, lit from beneath." class="base-visual__img base-visual__img--gold" loading="lazy">
-      <img src="assets/detail-base-uv.jpg" alt="The EIGHT40 base emblem glowing blue-violet under UV light at night." class="base-visual__img base-visual__img--uv" loading="lazy">
+      <video class="base-visual__img base-visual__img--gold bg-video" muted loop playsinline preload="none" poster="assets/detail-base.jpg" aria-hidden="true">
+        <source src="https://d8j0ntlcm91z4.cloudfront.net/user_2xxUgNUgwdtxZYtJq83FQ2JpAUE/hf_20260815_212727_f84da3f4-ecbd-46b8-b9dc-30e2f230345e.mp4" type="video/mp4">
+      </video>
+      <video class="base-visual__img base-visual__img--uv bg-video" muted loop playsinline preload="none" poster="assets/detail-base-uv.jpg" aria-hidden="true">
+        <source src="https://d8j0ntlcm91z4.cloudfront.net/user_2xxUgNUgwdtxZYtJq83FQ2JpAUE/hf_20260815_212727_a6e43b21-a23f-4664-a6dc-2caf3020a612.mp4" type="video/mp4">
+      </video>
     </div>
     <div class="chapter__inner chapter__inner--base">
       <p class="eyebrow">CHAPTER THREE</p>
@@ -103,6 +112,11 @@
 
   <!-- ================= CLIMAX ================= -->
   <section class="climax" id="contact">
+    <div class="climax__bg">
+      <video class="bg-video" muted loop playsinline preload="none" poster="assets/hero-bottle.jpg" aria-hidden="true">
+        <source src="https://d8j0ntlcm91z4.cloudfront.net/user_2xxUgNUgwdtxZYtJq83FQ2JpAUE/hf_20260815_212727_9dd515b4-41d7-45a3-b2ca-024bce1c02d8.mp4" type="video/mp4">
+      </video>
+    </div>
     <div class="climax__content">
       <p class="climax__mark" aria-hidden="true">8&middot;40</p>
       <h2 class="climax__wordmark">EIGHT40</h2>

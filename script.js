@@ -87,9 +87,30 @@
 
       document.documentElement.classList.add("is-ready");
 
-      /* ---- Generic scroll reveals ---- */
+      /* ---- Background videos ----
+         Autoplay only when the visitor hasn't asked for reduced motion.
+         When reduced, videos stay paused and their `poster` frame (the
+         stills we already ship) is shown instead — no HTML `autoplay`
+         attribute is used, so there's never a flash of motion first. */
+      var bgVideos = document.querySelectorAll(".bg-video");
+      if (reduceMotion) {
+        bgVideos.forEach(function (v) { v.pause(); });
+      } else {
+        bgVideos.forEach(function (v) {
+          var playPromise = v.play();
+          if (playPromise && playPromise.catch) {
+            playPromise.catch(function () { /* autoplay blocked — poster still shows */ });
+          }
+        });
+      }
+
+      /* ---- Generic scroll reveals ----
+         Note: the Signature Base day/night copy (.chapter__copy--gold-phase /
+         --uv-phase) is deliberately excluded — its opacity is choreographed
+         by the is-night crossfade below, and letting GSAP force it to
+         opacity:1 here would stack both phases on top of each other. */
       var revealTargets = document.querySelectorAll(
-        ".chapter__title, .chapter__copy, .chapter__media, .eyebrow, .climax__mark, .climax__wordmark, .climax__sub, .climax__tagline, .climax__cta"
+        ".chapter__title, .chapter__copy:not(.chapter__copy--gold-phase):not(.chapter__copy--uv-phase), .chapter__media, .eyebrow, .climax__mark, .climax__wordmark, .climax__sub, .climax__tagline, .climax__cta"
       );
       revealTargets.forEach(function (el) { el.classList.add("reveal"); });
 
