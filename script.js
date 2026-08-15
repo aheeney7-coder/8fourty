@@ -191,30 +191,20 @@
         });
       }
 
-      /* ---- Signature base: day -> night crossfade tied to scroll ---- */
+      /* ---- Signature base: day -> night crossfade ----
+         Deliberately simple: a single one-time trigger flips to the UV/night
+         state once you've scrolled about halfway through the section, and
+         CSS handles the crossfade. No pinning, no scroll-scrub — those were
+         the source of the visible glitching, and this reads just as well
+         without them. Same behavior for everyone, reduced-motion or not. */
       var baseSection = document.querySelector(".chapter--base");
       if (baseSection) {
-        if (reduceMotion) {
-          /* Show the night state as a static second beat instead of a scroll-linked crossfade */
-          ScrollTrigger.create({
-            trigger: baseSection,
-            start: "center center",
-            once: true,
-            onEnter: function () { baseSection.classList.add("is-night"); }
-          });
-        } else {
-          ScrollTrigger.create({
-            trigger: baseSection,
-            start: "top top",
-            end: "+=120%",
-            pin: true,
-            pinSpacing: true,
-            scrub: 0.6,
-            onUpdate: function (self) {
-              baseSection.classList.toggle("is-night", self.progress > 0.55);
-            }
-          });
-        }
+        ScrollTrigger.create({
+          trigger: baseSection,
+          start: "center center",
+          once: true,
+          onEnter: function () { baseSection.classList.add("is-night"); }
+        });
       }
     }
   );
