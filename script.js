@@ -84,6 +84,39 @@
     window.addEventListener("scroll", onScroll, { passive: true });
   }
 
+  /* ---------------- Orientation-aware video sources ----------------
+     Each .scrub-video ships a portrait and a landscape file via
+     data-src-portrait / data-src-landscape. We pick whichever matches the
+     current viewport and reload if the visitor rotates their device or
+     resizes past the portrait/landscape boundary. Playback itself is
+     handled separately below (scroll-scrubbed, not autoplay). */
+  var scrubVideos = Array.prototype.slice.call(document.querySelectorAll(".scrub-video"));
+
+  function isLandscapeViewport() {
+    return window.innerWidth > window.innerHeight;
+  }
+
+  function pickSource(video) {
+    var wanted = isLandscapeViewport() ? video.dataset.srcLandscape : video.dataset.srcPortrait;
+    if (!wanted || video.dataset.activeSrc === wanted) return false;
+    var resumeFraction = video.duration ? video.currentTime / video.duration : 0;
+    video.dataset.activeSrc = wanted;
+    video.dataset.resumeFraction = String(resumeFraction);
+    video.src = wanted;
+    video.load();
+    return true;
+  }
+
+  scrubVideos.forEach(function (video) { pickSource(video); });
+
+  var orientationDebounce;
+  window.addEventListener("resize", function () {
+    clearTimeout(orientationDebounce);
+    orientationDebounce = setTimeout(function () {
+      scrubVideos.forEach(pickSource);
+    }, 200);
+  });
+
   /* ---------------- GSAP setup ---------------- */
   var hasGSAP = window.gsap && window.ScrollTrigger;
   if (!hasGSAP) {
@@ -109,21 +142,50 @@
 
       document.documentElement.classList.add("is-ready");
 
-      /* ---- Background videos ----
-         Autoplay only when the visitor hasn't asked for reduced motion.
-         When reduced, videos stay paused and their `poster` frame (the
-         stills we already ship) is shown instead — no HTML `autoplay`
-         attribute is used, so there's never a flash of motion first. */
-      var bgVideos = document.querySelectorAll(".bg-video");
-      if (reduceMotion) {
-        bgVideos.forEach(function (v) { v.pause(); });
-      } else {
-        bgVideos.forEach(function (v) {
-          var playPromise = v.play();
-          if (playPromise && playPromise.catch) {
-            playPromise.catch(function () { /* autoplay blocked — poster still shows */ });
-          }
+      /* ---- Background videos: scroll-scrubbed, never autoplaying ----
+         Every .scrub-video stays paused. Its currentTime is driven
+         directly by scroll progress through the section it lives in, so
+         the footage only moves while the visitor is actively scrolling
+         and holds still the instant they stop. Under reduced motion we
+         skip this entirely and just leave the poster frame showing. */
+      scrubVideos.forEach(function (v) { v.pause(); });
+
+      function bindScrub(video, triggerVars) {
+        if (!video) return;
+        function create() {
+          if (!video.duration || !isFinite(video.duration)) return;
+          if (video._scrubST) video._scrubST.kill();
+          video._scrubST = ScrollTrigger.create(
+            Object.assign(
+              {
+                scrub: true,
+                onUpdate: function (self) {
+                  try { video.currentTime = self.progress * video.duration; } catch (err) {}
+                }
+              },
+              triggerVars
+            )
+          );
+        }
+        video.addEventListener("loadedmetadata", create);
+        if (video.readyState >= 1) create();
+      }
+
+      if (!reduceMotion) {
+        bindScrub(document.querySelector(".hero .scrub-video"), {
+          trigger: ".hero",
+          start: "top top",
+          end: "bottom top"
         });
+        bindScrub(document.querySelector(".climax .scrub-video"), {
+          trigger: ".climax",
+          start: "top bottom",
+          end: "bottom top"
+        });
+        /* Base gold/UV videos are scrubbed inside the pinned ScrollTrigger
+           below, using the same self.progress that drives the day/night
+           crossfade, rather than a second competing trigger on the same
+           pinned element. */
       }
 
       /* ---- Generic scroll reveals ----
@@ -165,7 +227,7 @@
           stagger: 0.15,
           delay: 0.2
         });
-        gsap.from(".hero__bg img", {
+        gsap.from(".hero__bg video", {
           scale: 1.08,
           duration: 2.2,
           ease: "power2.out"
@@ -211,6 +273,9 @@
       /* ---- Signature base: day -> night crossfade tied to scroll ---- */
       var baseSection = document.querySelector(".chapter--base");
       if (baseSection) {
+        var baseGoldVideo = baseSection.querySelector(".base-visual__img--gold");
+        var baseUvVideo = baseSection.querySelector(".base-visual__img--uv");
+
         if (reduceMotion) {
           /* Show the night state as a static second beat instead of a scroll-linked crossfade */
           ScrollTrigger.create({
@@ -229,6 +294,12 @@
             scrub: 0.6,
             onUpdate: function (self) {
               baseSection.classList.toggle("is-night", self.progress > 0.55);
+              if (baseGoldVideo && baseGoldVideo.duration) {
+                try { baseGoldVideo.currentTime = self.progress * baseGoldVideo.duration; } catch (err) {}
+              }
+              if (baseUvVideo && baseUvVideo.duration) {
+                try { baseUvVideo.currentTime = self.progress * baseUvVideo.duration; } catch (err) {}
+              }
             }
           });
         }
