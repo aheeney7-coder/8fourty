@@ -1,0 +1,528 @@
+/* =========================================================
+   EIGHT40 — PREMIUM RUM
+   Design tokens generated with ui-ux-pro-max (luxury/premium
+   brand profile: black + champagne gold, Cormorant/Montserrat,
+   scroll-triggered storytelling) and refined by hand to match
+   the supplied bottle artwork exactly.
+   ========================================================= */
+
+:root {
+  /* Color */
+  --ink:          #060504;
+  --ink-soft:     #0b0908;
+  --panel:        #0f0d0b;
+  --hairline:     #262119;
+  --ivory:        #F4EFE4;
+  --smoke:        #948C7E;
+  --gold:         #C9A768;
+  --gold-bright:  #E9D39B;
+  --gold-deep:    #8C6F35;
+  --uv:           #7C8CFF;
+
+  /* Type */
+  --font-display: "Cormorant", Georgia, serif;
+  --font-body:    "Montserrat", -apple-system, sans-serif;
+  --font-mono:    "JetBrains Mono", ui-monospace, "SFMono-Regular", monospace;
+
+  /* Spacing (spacious, per design-system dial) */
+  --space-xs: 0.5rem;
+  --space-sm: 1rem;
+  --space-md: 1.75rem;
+  --space-lg: 3rem;
+  --space-xl: 5rem;
+  --space-2xl: 8rem;
+  --space-3xl: 11rem;
+
+  --ease-luxury: cubic-bezier(0.22, 1, 0.36, 1);
+  --nav-h: 84px;
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+
+html {
+  scroll-behavior: smooth;
+  background: var(--ink);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+}
+
+body {
+  margin: 0;
+  background: var(--ink);
+  color: var(--ivory);
+  font-family: var(--font-body);
+  font-weight: 300;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+
+img { max-width: 100%; display: block; }
+
+a { color: inherit; text-decoration: none; }
+
+::selection { background: var(--gold-deep); color: var(--ivory); }
+
+.eyebrow {
+  font-family: var(--font-body);
+  font-size: 0.72rem;
+  font-weight: 500;
+  letter-spacing: 0.32em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin: 0 0 var(--space-sm);
+}
+
+em { font-style: italic; color: var(--gold-bright); }
+
+/* =========================================================
+   Buttons
+   ========================================================= */
+.btn {
+  display: inline-block;
+  cursor: pointer;
+  font-family: var(--font-body);
+  font-size: 0.78rem;
+  font-weight: 500;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  padding: 1.05em 2.4em;
+  border-radius: 2px;
+  border: 1px solid transparent;
+  transition: background 240ms var(--ease-luxury), color 240ms var(--ease-luxury), border-color 240ms var(--ease-luxury), transform 240ms var(--ease-luxury);
+}
+.btn:focus-visible {
+  outline: 2px solid var(--gold-bright);
+  outline-offset: 3px;
+}
+.btn--primary {
+  background: linear-gradient(155deg, var(--gold-bright), var(--gold) 55%, var(--gold-deep));
+  color: #100c05;
+}
+.btn--primary:hover { transform: translateY(-1px); filter: brightness(1.08); }
+.btn--secondary {
+  background: transparent;
+  color: var(--smoke);
+  border-color: var(--hairline);
+}
+.btn--secondary:hover { color: var(--ivory); border-color: var(--gold-deep); }
+
+/* =========================================================
+   Age Gate
+   ========================================================= */
+#age-gate {
+  position: fixed;
+  inset: 0;
+  z-index: 999;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  background: radial-gradient(120% 120% at 50% 20%, #14110c 0%, #060504 70%);
+  padding: var(--space-lg) var(--space-md);
+}
+#age-gate[hidden] { display: none; }
+.age-gate__mark {
+  font-family: var(--font-display);
+  font-weight: 500;
+  font-size: clamp(2.4rem, 8vw, 3.4rem);
+  color: var(--gold);
+  letter-spacing: 0.04em;
+  margin-bottom: var(--space-md);
+}
+.age-gate__title {
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: clamp(1.6rem, 4vw, 2.2rem);
+  margin: 0 0 var(--space-sm);
+  color: var(--ivory);
+}
+.age-gate__text {
+  max-width: 34ch;
+  color: var(--smoke);
+  font-size: 0.95rem;
+  margin: 0 0 var(--space-lg);
+}
+.age-gate__actions {
+  display: flex;
+  gap: var(--space-sm);
+  flex-wrap: wrap;
+  justify-content: center;
+}
+.age-gate__legal {
+  margin-top: var(--space-lg);
+  font-size: 0.7rem;
+  letter-spacing: 0.08em;
+  color: #56504a;
+}
+
+/* =========================================================
+   Nav
+   ========================================================= */
+.site-nav {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 50;
+  height: var(--nav-h);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 var(--space-lg);
+  background: linear-gradient(to bottom, rgba(6,5,4,0.75), rgba(6,5,4,0));
+  transition: background 300ms var(--ease-luxury), backdrop-filter 300ms var(--ease-luxury);
+  opacity: 0;
+  transform: translateY(-8px);
+}
+.site-nav.is-visible { opacity: 1; transform: translateY(0); }
+.site-nav.is-scrolled {
+  background: rgba(6,5,4,0.86);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid var(--hairline);
+}
+.site-nav__mark {
+  font-family: var(--font-display);
+  font-size: 1.5rem;
+  color: var(--gold);
+  letter-spacing: 0.05em;
+}
+.site-nav__links { display: flex; gap: var(--space-lg); }
+.site-nav__links a {
+  font-size: 0.7rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--smoke);
+  transition: color 200ms var(--ease-luxury);
+  padding: 0.5em 0;
+}
+.site-nav__links a:hover,
+.site-nav__links a:focus-visible { color: var(--gold-bright); }
+
+@media (max-width: 720px) {
+  .site-nav { padding: 0 var(--space-md); }
+  .site-nav__links { gap: var(--space-md); }
+  .site-nav__links a:nth-child(3) { display: none; }
+}
+
+/* =========================================================
+   Hero
+   ========================================================= */
+.hero {
+  position: relative;
+  min-height: 100svh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  background: var(--ink);
+}
+.hero__bg {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.hero__bg img {
+  height: 108%;
+  width: auto;
+  max-width: none;
+  object-fit: cover;
+  opacity: 0.92;
+}
+.hero__bg::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to bottom, rgba(6,5,4,0.35) 0%, rgba(6,5,4,0.15) 45%, rgba(6,5,4,0.85) 100%);
+}
+.hero__content {
+  position: relative;
+  z-index: 2;
+  text-align: center;
+  padding-top: var(--space-2xl);
+}
+.hero__headline {
+  font-family: var(--font-display);
+  font-weight: 300;
+  font-size: clamp(3.2rem, 11vw, 7.5rem);
+  line-height: 0.98;
+  letter-spacing: 0.01em;
+  margin: 0;
+  color: var(--ivory);
+  text-shadow: 0 4px 40px rgba(0,0,0,0.6);
+}
+.hero__code {
+  margin: var(--space-md) 0 0;
+  font-family: var(--font-mono);
+  font-size: 0.85rem;
+  letter-spacing: 0.35em;
+  color: var(--gold);
+}
+.scroll-cue {
+  position: absolute;
+  bottom: var(--space-lg);
+  left: 50%;
+  transform: translateX(-50%);
+  width: 1px;
+  height: 52px;
+  background: linear-gradient(to bottom, transparent, var(--hairline));
+  z-index: 2;
+}
+.scroll-cue span {
+  position: absolute;
+  top: 0; left: -1.5px;
+  width: 4px; height: 4px;
+  border-radius: 50%;
+  background: var(--gold);
+  animation: cue-drop 2.6s var(--ease-luxury) infinite;
+}
+@keyframes cue-drop {
+  0%   { top: 0; opacity: 0; }
+  15%  { opacity: 1; }
+  85%  { opacity: 1; }
+  100% { top: 46px; opacity: 0; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .scroll-cue span { animation: none; top: 20px; opacity: 0.6; }
+}
+
+/* =========================================================
+   Chapters — shared
+   ========================================================= */
+.chapter {
+  position: relative;
+  padding: var(--space-2xl) var(--space-lg);
+  background: var(--ink);
+}
+.chapter__inner {
+  max-width: 640px;
+  margin: 0 auto;
+  text-align: center;
+}
+.chapter__title {
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: clamp(2.4rem, 6vw, 4rem);
+  line-height: 1.05;
+  margin: 0 0 var(--space-md);
+  color: var(--ivory);
+}
+.chapter__copy {
+  color: var(--smoke);
+  font-size: 1rem;
+  line-height: 1.8;
+  max-width: 52ch;
+  margin: 0 auto;
+}
+
+/* Chapter 1: The Code */
+.chapter--code { background: var(--panel); border-top: 1px solid var(--hairline); border-bottom: 1px solid var(--hairline); }
+.code-readout {
+  font-family: var(--font-mono);
+  margin: var(--space-lg) 0;
+  min-height: 4.5em;
+}
+.code-readout__line {
+  margin: 0 0 0.6em;
+  color: var(--gold-bright);
+  font-size: clamp(1.6rem, 5vw, 2.6rem);
+  letter-spacing: 0.06em;
+}
+.code-readout__line--sub {
+  font-size: 0.72rem;
+  letter-spacing: 0.3em;
+  color: var(--smoke);
+  text-transform: uppercase;
+}
+.code-readout__line::after {
+  content: "";
+  display: inline-block;
+  width: 0.5em;
+  height: 1em;
+  margin-left: 0.15em;
+  background: var(--gold);
+  vertical-align: -0.15em;
+  opacity: 0;
+}
+.code-readout.is-typing .code-readout__line--active::after {
+  opacity: 1;
+  animation: caret-blink 0.9s steps(1) infinite;
+}
+@keyframes caret-blink { 50% { opacity: 0; } }
+
+/* Chapter 2/2b: split media + text */
+.chapter--split {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  align-items: center;
+  gap: var(--space-2xl);
+  max-width: 1200px;
+  margin: 0 auto;
+  padding-top: var(--space-xl);
+  padding-bottom: var(--space-xl);
+}
+.chapter--reverse { direction: rtl; }
+.chapter--reverse > * { direction: ltr; }
+.chapter__media {
+  border-radius: 4px;
+  overflow: hidden;
+  background: var(--panel);
+}
+.chapter__media img { width: 100%; height: auto; }
+.chapter--split .chapter__title,
+.chapter--split .chapter__copy { text-align: left; margin-left: 0; }
+.chapter--split .eyebrow { text-align: left; }
+
+@media (max-width: 860px) {
+  .chapter--split {
+    grid-template-columns: 1fr;
+    gap: var(--space-lg);
+    text-align: center;
+  }
+  .chapter--reverse { direction: ltr; }
+  .chapter--split .chapter__title,
+  .chapter--split .chapter__copy,
+  .chapter--split .eyebrow { text-align: center; margin-left: auto; margin-right: auto; }
+  .chapter__media { max-width: 380px; margin: 0 auto; }
+}
+
+/* Chapter 3: Signature base — day / night crossfade */
+.chapter--base {
+  padding: 0;
+  min-height: 100svh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+.base-visual {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.base-visual__img {
+  position: absolute;
+  height: 92%;
+  width: auto;
+  max-width: none;
+  object-fit: contain;
+  transition: opacity 900ms var(--ease-luxury);
+}
+.base-visual__img--gold { opacity: 1; }
+.base-visual__img--uv { opacity: 0; }
+.chapter--base.is-night .base-visual__img--gold { opacity: 0; }
+.chapter--base.is-night .base-visual__img--uv { opacity: 1; }
+
+.chapter__inner--base {
+  position: relative;
+  z-index: 2;
+  background: linear-gradient(to top, rgba(6,5,4,0.92) 15%, rgba(6,5,4,0.55) 55%, transparent 100%);
+  padding: var(--space-2xl) var(--space-lg) var(--space-xl);
+  width: 100%;
+  max-width: none;
+}
+.chapter__inner--base .chapter__title,
+.chapter__inner--base .eyebrow { text-align: center; }
+.chapter__copy--gold-phase,
+.chapter__copy--uv-phase {
+  transition: opacity 600ms var(--ease-luxury);
+  position: absolute;
+  left: 50%;
+  bottom: var(--space-xl);
+  transform: translateX(-50%);
+  width: min(52ch, 90vw);
+}
+.chapter__copy--gold-phase { opacity: 1; }
+.chapter__copy--uv-phase { opacity: 0; color: #b9bffb; }
+.chapter--base.is-night .chapter__copy--gold-phase { opacity: 0; }
+.chapter--base.is-night .chapter__copy--uv-phase { opacity: 1; }
+.chapter__inner--base { position: relative; min-height: 40vh; }
+
+@media (max-width: 720px) {
+  .base-visual__img { height: 78%; }
+}
+
+/* =========================================================
+   Climax
+   ========================================================= */
+.climax {
+  position: relative;
+  min-height: 90svh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  background: radial-gradient(120% 90% at 50% 30%, #120f0a 0%, var(--ink) 70%);
+  padding: var(--space-2xl) var(--space-lg);
+}
+.climax__mark {
+  font-family: var(--font-display);
+  font-size: clamp(2.2rem, 6vw, 3rem);
+  color: var(--gold);
+  margin: 0 0 var(--space-md);
+}
+.climax__wordmark {
+  font-family: var(--font-body);
+  font-weight: 500;
+  font-size: clamp(1.6rem, 5vw, 2.6rem);
+  letter-spacing: 0.2em;
+  margin: 0;
+  color: var(--ivory);
+}
+.climax__sub {
+  font-size: 0.75rem;
+  letter-spacing: 0.35em;
+  color: var(--smoke);
+  margin: var(--space-xs) 0 var(--space-lg);
+}
+.climax__tagline {
+  font-family: var(--font-display);
+  font-size: clamp(1.3rem, 3vw, 1.8rem);
+  margin: 0 0 var(--space-lg);
+}
+.climax__cta { margin-top: var(--space-sm); }
+
+/* =========================================================
+   Footer
+   ========================================================= */
+.site-footer {
+  text-align: center;
+  padding: var(--space-xl) var(--space-md) var(--space-lg);
+  border-top: 1px solid var(--hairline);
+  background: var(--ink);
+}
+.site-footer__mark {
+  font-family: var(--font-display);
+  color: var(--gold);
+  font-size: 1.5rem;
+  margin: 0 0 var(--space-sm);
+}
+.site-footer__copy {
+  font-size: 0.8rem;
+  color: var(--smoke);
+  margin: 0 0 var(--space-xs);
+}
+.site-footer__legal {
+  font-size: 0.7rem;
+  color: #4d473f;
+  margin: 0;
+}
+
+/* =========================================================
+   Scroll-reveal base state (progressive enhancement)
+   JS adds .is-ready to <html> once GSAP has set initial states,
+   so content is fully visible if JS fails to load.
+   ========================================================= */
+.reveal { opacity: 1; transform: none; }
+html.js .reveal { opacity: 0; transform: translateY(28px); }
+html.js.is-ready .reveal { transition: opacity 700ms var(--ease-luxury), transform 700ms var(--ease-luxury); }
+
+/* Respect reduced motion: never rely on JS-driven transforms */
+@media (prefers-reduced-motion: reduce) {
+  html.js .reveal { opacity: 1; transform: none; }
+}
