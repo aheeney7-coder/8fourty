@@ -115,7 +115,7 @@
          by the is-night crossfade below, and letting GSAP force it to
          opacity:1 here would stack both phases on top of each other. */
       var revealTargets = document.querySelectorAll(
-        ".chapter__title, .chapter__copy:not(.chapter__copy--gold-phase):not(.chapter__copy--uv-phase), .chapter__media, .eyebrow, .climax__mark, .climax__wordmark, .climax__sub, .climax__tagline, .climax__cta"
+        ".chapter__title, .chapter__copy:not(.chapter__copy--gold-phase):not(.chapter__copy--uv-phase), .chapter__media, .eyebrow, .climax__mark, .climax__wordmark, .climax__sub, .climax__tagline, .climax__cta, .moment__tagline"
       );
       revealTargets.forEach(function (el) { el.classList.add("reveal"); });
 
