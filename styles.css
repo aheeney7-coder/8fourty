@@ -40,12 +40,10 @@
 *, *::before, *::after { box-sizing: border-box; }
 
 html {
-  scroll-behavior: smooth;
+  /* Deliberately no scroll-behavior: smooth — it fights the GSAP
+     ScrollTrigger pin/scrub on the Signature Base section and was
+     the main source of choppy scrolling, especially on mobile. */
   background: var(--ink);
-}
-
-@media (prefers-reduced-motion: reduce) {
-  html { scroll-behavior: auto; }
 }
 
 body {
@@ -432,20 +430,24 @@ em { font-style: italic; color: var(--gold-bright); }
 }
 .chapter__inner--base .chapter__title,
 .chapter__inner--base .eyebrow { text-align: center; }
-.chapter__copy--gold-phase,
-.chapter__copy--uv-phase {
+
+/* Both phases of copy occupy the same grid cell, so they overlap exactly
+   and the wrapper's height is simply the taller of the two — no vh
+   guessing, no position:absolute offsets that can drift on odd viewports. */
+.chapter__copy-stack {
+  display: grid;
+  margin-top: var(--space-md);
+}
+.chapter__copy-stack > .chapter__copy {
+  grid-area: 1 / 1;
   transition: opacity 600ms var(--ease-luxury);
-  position: absolute;
-  left: 50%;
-  bottom: var(--space-xl);
-  transform: translateX(-50%);
   width: min(52ch, 90vw);
+  margin-inline: auto;
 }
 .chapter__copy--gold-phase { opacity: 1; }
 .chapter__copy--uv-phase { opacity: 0; color: #b9bffb; }
 .chapter--base.is-night .chapter__copy--gold-phase { opacity: 0; }
 .chapter--base.is-night .chapter__copy--uv-phase { opacity: 1; }
-.chapter__inner--base { position: relative; min-height: 40vh; }
 
 @media (max-width: 720px) {
   .base-visual__img { height: 78%; }

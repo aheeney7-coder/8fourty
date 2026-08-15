@@ -56,6 +56,23 @@
   var yearEl = document.getElementById("year");
   if (yearEl) yearEl.textContent = new Date().getFullYear();
 
+  /* ---------------- Smooth in-page nav (targeted, not global) ----------------
+     We deliberately don't use CSS `scroll-behavior: smooth` site-wide — it
+     fights the GSAP ScrollTrigger pin on the Signature Base section and was
+     the main cause of choppy scrolling. Instead, only anchor-link clicks get
+     a smooth scroll. */
+  document.querySelectorAll('a[href^="#"]').forEach(function (link) {
+    link.addEventListener("click", function (e) {
+      var id = link.getAttribute("href");
+      if (!id || id === "#") return;
+      var target = document.querySelector(id);
+      if (!target) return;
+      e.preventDefault();
+      var reduce = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+      target.scrollIntoView({ behavior: reduce ? "auto" : "smooth", block: "start" });
+    });
+  });
+
   /* ---------------- Nav visibility ---------------- */
   var nav = document.getElementById("site-nav");
   if (nav) {
@@ -74,6 +91,11 @@
     return;
   }
   gsap.registerPlugin(ScrollTrigger);
+
+  /* iOS Safari resizes the viewport as its address bar shows/hides while
+     scrolling, which otherwise re-triggers ScrollTrigger's layout math
+     mid-scroll and is a common source of stutter on mobile. */
+  ScrollTrigger.config({ ignoreMobileResize: true });
 
   var mm = gsap.matchMedia();
 
