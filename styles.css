@@ -475,18 +475,18 @@ em { font-style: italic; color: var(--gold-bright); }
   justify-content: center;
   z-index: 0;
 }
-.climax__bg video {
+.climax__bg img {
   height: 108%;
   width: auto;
   max-width: none;
   object-fit: cover;
-  opacity: 0.55;
+  opacity: 0.85;
 }
 .climax__bg::after {
   content: "";
   position: absolute;
   inset: 0;
-  background: radial-gradient(120% 90% at 50% 35%, rgba(6,5,4,0.4) 0%, rgba(6,5,4,0.88) 75%);
+  background: radial-gradient(120% 90% at 50% 35%, rgba(6,5,4,0.5) 0%, rgba(6,5,4,0.92) 78%);
 }
 .climax__content { position: relative; z-index: 1; }
 .climax__mark {
